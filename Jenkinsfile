@@ -1,13 +1,11 @@
 pipeline {
   agent any
   stages {
-    stage('build') {
+    stage('Upload to AWS') {
       steps {
-        sh 'echo "Hello World"'
-        sh '''
-            echo "Multiline shell steps works too"
-            ls -lah
-            '''
+         withAWS(region:'us-east-2', credentials:'aws-static') {
+                   s3Upload(bucket:"nalhamid-udacity-project-3", includePathPattern:'**/*');
+                }
       }
     }
   }
